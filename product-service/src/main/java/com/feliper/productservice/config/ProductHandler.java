@@ -14,8 +14,11 @@ public class ProductHandler {
 
     private final ProductService productService;
 
-    public ProductHandler(ProductService productService) {
+    private final Flux<ProductDto> productBroadcast;
+
+    public ProductHandler(ProductService productService, Flux<ProductDto> productBroadcast) {
         this.productService = productService;
+        this.productBroadcast = productBroadcast;
     }
 
     public Mono<ServerResponse> getAllHandler(ServerRequest request) {
@@ -60,6 +63,12 @@ public class ProductHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(productDtoFlux, ProductDto.class);
+    }
+
+    public Mono<ServerResponse> streamProduct(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.TEXT_EVENT_STREAM)
+                .body(productBroadcast, ProductDto.class);
     }
 
 }

@@ -24,6 +24,7 @@ public class ProductRouterConfig {
 
     private RouterFunction<ServerResponse> buildProductRouterFunction() {
         return RouterFunctions.route()
+                .GET("stream", handler::streamProduct)
                 .GET("all", handler::getAllHandler)
                 .GET("price-range", handler::findByPriceRange)
                 .GET("{id}", handler::getById)
